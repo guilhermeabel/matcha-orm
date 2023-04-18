@@ -27,6 +27,21 @@ class QueryBuilder
         return $this;
     }
 
+    public function where(string $column, string $operator, $value): self
+    {
+        $placeholder = ':' . str_replace('.', '_', $column);
+        $this->query .= " WHERE {$column} {$operator} {$placeholder}";
+        $this->bindings[$placeholder] = $value;
+        return $this;
+    }
+
+    public function orWhere(string $column, string $operator, $value): self
+    {
+        $this->query .= " OR {$column} {$operator} ?";
+        $this->bindings[] = $value;
+        return $this;
+    }
+
     //** TO-DO: join, insert, subqueries, transaction support */
 
     public function get()
