@@ -1,3 +1,4 @@
 src/migrations
 src/relations
 vendor
+config/database.php
