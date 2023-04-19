@@ -93,6 +93,18 @@ class Model
 
         return $_id;
     }
+
+    public function delete()
+    {
+        if (isset($this->{$this->primaryKey})) {
+            $queryBuilder = new QueryBuilder($this->getConnection());
+            $queryBuilder->delete()
+                         ->from($this->getTable())
+                         ->where($this->primaryKey, '=', $this->{$this->primaryKey})
+                         ->execute();
+        }
+    }
+
     public static function find($id)
     {
         $instance = new static();
