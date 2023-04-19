@@ -15,6 +15,8 @@ class QueryBuilder
         $this->pdo = $pdo;
     }
 
+    //** TO-DO: join, subqueries, transaction support */
+
     /** CREATE */
 
     public function insert(string $table): self
@@ -38,6 +40,8 @@ class QueryBuilder
         return $this;
     }
 
+    /** READ */
+
     public function select(string $columns = '*'): self
     {
         $this->query = "SELECT {$columns}";
@@ -49,6 +53,8 @@ class QueryBuilder
         $this->query .= " FROM {$table}";
         return $this;
     }
+
+    //** UPDATE */
 
     public function where(string $column, string $operator, $value): self
     {
