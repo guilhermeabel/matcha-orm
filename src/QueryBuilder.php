@@ -103,14 +103,14 @@ class QueryBuilder
 
     public function get()
     {
-        $stmt = $this->exec();
-        return $stmt->fetchAll();
+        $statement = $this->exec();
+        return $statement->fetchAll();
     }
 
     public function first()
     {
-        $stmt = $this->exec();
-        return $stmt->fetch();
+        $statement = $this->exec();
+        return $statement->fetch();
     }
 
     public function execute()
@@ -120,8 +120,8 @@ class QueryBuilder
 
     protected function exec()
     {
-        $stmt = $this->pdo->prepare($this->query);
-        $stmt->exec($this->bindings);
-        return $stmt;
+        $statement = $this->pdo->prepare($this->query);
+        $statement->execute($this->bindings);
+        return $statement;
     }
 }
