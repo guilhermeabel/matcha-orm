@@ -15,6 +15,29 @@ class QueryBuilder
         $this->pdo = $pdo;
     }
 
+    /** CREATE */
+
+    public function insert(string $table): self
+    {
+        $this->query = "INSERT INTO {$table}";
+        return $this;
+    }
+
+    public function values(array $data): self
+    {
+        $columns = array_keys($data);
+        $placeholders = array_map(fn ($col) => ':' . $col, $columns);
+
+        $this->query .= ' (' . implode(', ', $columns) . ')';
+        $this->query .= ' VALUES (' . implode(', ', $placeholders) . ')';
+
+        foreach ($data as $column => $value) {
+            $this->bindings[':' . $column] = $value;
+        }
+
+        return $this;
+    }
+
     public function select(string $columns = '*'): self
     {
         $this->query = "SELECT {$columns}";
