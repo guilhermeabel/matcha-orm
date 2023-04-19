@@ -56,6 +56,25 @@ class QueryBuilder
 
     //** UPDATE */
 
+    public function update(string $table): self
+    {
+        $this->query = "UPDATE {$table}";
+        return $this;
+    }
+
+    public function set(array $data): self
+    {
+        $set = [];
+        foreach ($data as $column => $value) {
+            $placeholder = ':' . $column;
+            $set[] = "{$column} = {$placeholder}";
+            $this->bindings[$placeholder] = $value;
+        }
+        $this->query .= ' SET ' . implode(', ', $set);
+        return $this;
+    }
+
+
     /** DELETE */
 
     public function delete(): self
