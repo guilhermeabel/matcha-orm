@@ -56,6 +56,14 @@ class QueryBuilder
 
     //** UPDATE */
 
+    /** DELETE */
+
+    public function delete(): self
+    {
+        $this->query = "DELETE ";
+        return $this;
+    }
+
     public function where(string $column, string $operator, $value): self
     {
         $placeholder = ':' . str_replace('.', '_', $column);
