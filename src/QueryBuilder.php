@@ -64,6 +64,7 @@ class QueryBuilder
         return $this;
     }
 
+    /** CONDITIONS */
     public function where(string $column, string $operator, $value): self
     {
         $placeholder = ':' . str_replace('.', '_', $column);
