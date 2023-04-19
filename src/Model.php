@@ -56,6 +56,43 @@ class Model
 
     }
 
+    public function save(): ?int
+    {
+        $queryBuilder = new QueryBuilder($this->getConnection());
+
+        $_id = null;
+        $attributes = [];
+        foreach ($this->fillable as $key) {
+            if (property_exists($this, $key)) {
+                $attributes[$key] = $this->$key;
+            }
+        }
+
+        if (isset($this->{$this->primaryKey})) {
+            if ($this->timestamps) {
+                $attributes['updated_at'] = date('Y-m-d H:i:s');
+            }
+
+            $queryBuilder->update($this->getTable())
+                         ->set($attributes)
+                         ->where($this->primaryKey, '=', $this->{$this->primaryKey})
+                         ->execute();
+            $_id = $this->{$this->primaryKey};
+        } else {
+            if ($this->timestamps) {
+                $attributes['created_at'] = date('Y-m-d H:i:s');
+                $attributes['updated_at'] = date('Y-m-d H:i:s');
+            }
+
+            $queryBuilder->insert($this->getTable())
+                         ->values($attributes)
+                         ->execute();
+
+            $_id = $this->getConnection()->lastInsertId();
+        }
+
+        return $_id;
+    }
     public static function find($id)
     {
         $instance = new static();
