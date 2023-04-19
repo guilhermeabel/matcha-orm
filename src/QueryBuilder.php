@@ -71,24 +71,29 @@ class QueryBuilder
         return $this;
     }
 
-    //** TO-DO: join, insert, subqueries, transaction support */
+    /** OPERATIONS */
 
     public function get()
     {
-        $stmt = $this->execute();
+        $stmt = $this->exec();
         return $stmt->fetchAll();
     }
 
     public function first()
     {
-        $stmt = $this->execute();
+        $stmt = $this->exec();
         return $stmt->fetch();
     }
 
-    protected function execute()
+    public function execute()
+    {
+        return $this->exec();
+    }
+
+    protected function exec()
     {
         $stmt = $this->pdo->prepare($this->query);
-        $stmt->execute($this->bindings);
+        $stmt->exec($this->bindings);
         return $stmt;
     }
 }
