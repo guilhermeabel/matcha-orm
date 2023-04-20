@@ -3,6 +3,7 @@
 namespace MatchaORM;
 
 use MatchaORM\QueryBuilder;
+use MatchaORM\Relations\{OneToOne, OneToMany, ManyToMany};
 
 class Model
 {
@@ -133,6 +134,24 @@ class Model
                                 ->get();
 
         return array_map(fn ($record) => (new static())->fill($record), $records);
+    }
+
+    public function hasOne(/* ... */)
+    {
+        return new OneToOne(/* ... */);
+    }
+
+    public function hasMany(/* ... */)
+    {
+        return new OneToMany(/* ... */);
+    }
+    public function belongsTo(/* ... */)
+    {
+        return new OneToOne(/* ... */);
+    }
+    public function belongsToMany(/* ... */)
+    {
+        return new ManyToMany(/* ... */);
     }
 
 }
