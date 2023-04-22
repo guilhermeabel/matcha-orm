@@ -4,8 +4,9 @@ namespace MatchaORM;
 
 class WhereBuilder
 {
-    protected $column;
-    protected $queryBuilder;
+    protected string $column;
+    protected QueryBuilder $queryBuilder;
+    protected string $nextConditionType = 'AND';
 
     public function __construct(string $column, QueryBuilder $queryBuilder)
     {
