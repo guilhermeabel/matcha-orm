@@ -48,6 +48,23 @@ class Model
         return $this->primaryKey;
     }
 
+    /**
+     * Get the query builder instance or create a new one.
+     *
+     * @param Model|null $instance
+     * @return QueryBuilder
+     */
+    protected function getQueryBuilder(?Model $instance = null): QueryBuilder
+    {
+        $instance = $instance ?? $this;
+
+        if (!$instance->queryBuilder) {
+            $instance->queryBuilder = new QueryBuilder($instance->getConnection());
+        }
+
+        return $instance->queryBuilder;
+    }
+
     public function fill(array $attributes): self
     {
         foreach ($attributes as $key => $value) {
