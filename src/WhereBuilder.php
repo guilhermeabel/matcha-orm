@@ -38,4 +38,37 @@ class WhereBuilder
 
         return $this;
     }
+
+    /** COMPARISON */
+
+    public function greaterThan($value): QueryBuilder
+    {
+        $this->queryBuilder->add($this->nextConditionType, $this->column, '>', $value);
+        return $this->queryBuilder;
+    }
+
+    public function greaterThanOrEqual($value): QueryBuilder
+    {
+        $this->queryBuilder->add($this->nextConditionType, $this->column, '>=', $value);
+        return $this->queryBuilder;
+    }
+
+    public function lessThan($value): QueryBuilder
+    {
+        $this->queryBuilder->add($this->nextConditionType, $this->column, '<', $value);
+        return $this->queryBuilder;
+    }
+
+    public function lessThanOrEqual($value): QueryBuilder
+    {
+        $this->queryBuilder->add($this->nextConditionType, $this->column, '<=', $value);
+        return $this->queryBuilder;
+    }
+
+    public function notEqual($value): QueryBuilder
+    {
+        $this->queryBuilder->add($this->nextConditionType, $this->column, '<>', $value);
+        return $this->queryBuilder;
+    }
+
 }
