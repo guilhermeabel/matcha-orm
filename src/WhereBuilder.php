@@ -71,4 +71,17 @@ class WhereBuilder
         return $this->queryBuilder;
     }
 
+    /** LIKE */
+
+    public function like($pattern): QueryBuilder
+    {
+        $this->queryBuilder->add($this->nextConditionType, $this->column, 'LIKE', $pattern);
+        return $this->queryBuilder;
+    }
+
+    public function notLike($pattern): QueryBuilder
+    {
+        $this->queryBuilder->add($this->nextConditionType, $this->column, 'NOT LIKE', $pattern);
+        return $this->queryBuilder;
+    }
 }
