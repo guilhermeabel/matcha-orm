@@ -6,13 +6,34 @@ use PDO;
 
 class QueryBuilder
 {
-    protected $pdo;
-    protected $query;
-    protected $bindings = [];
+    protected PDO $pdo;
+    protected string $query;
+    protected array $bindings = [];
+    protected array $conditions = [];
 
     public function __construct(PDO $pdo)
     {
         $this->pdo = $pdo;
+    }
+
+    /**
+     * Get the conditions from the query.
+     *
+     * @return array
+     */
+    public function getConditions(): array
+    {
+        return $this->conditions;
+    }
+
+    /**
+     * Get the bindings from the query.
+     *
+     * @return array
+     */
+    public function getBindings(): array
+    {
+        return $this->bindings;
     }
 
     //** TO-DO: join, subqueries, transaction support */
@@ -84,18 +105,18 @@ class QueryBuilder
     }
 
     /** CONDITIONS */
-    public function where(string $column, string $operator, $value): self
+
+    public function where(string $column): WhereBuilder
     {
-        $placeholder = ':' . str_replace('.', '_', $column);
-        $this->query .= " WHERE {$column} {$operator} {$placeholder}";
-        $this->bindings[$placeholder] = $value;
-        return $this;
+        return new WhereBuilder($column, $this);
     }
 
-    public function orWhere(string $column, string $operator, $value): self
+    public function _addWhere(string $conditionType, string $column, string $operator, $value): self
     {
-        $this->query .= " OR {$column} {$operator} ?";
-        $this->bindings[] = $value;
+        $placeholder = ':' . str_replace('.', '_', $column);
+        $this->query .= (strpos($this->query, 'WHERE') !== false ? " {$conditionType}" : " WHERE") . " {$column} {$operator} {$placeholder}";
+        $this->bindings[$placeholder] = $value;
+
         return $this;
     }
 
