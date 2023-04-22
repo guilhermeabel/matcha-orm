@@ -7,11 +7,12 @@ use MatchaORM\Relations\{OneToOne, OneToMany, ManyToMany};
 
 class Model
 {
-    protected $table;
-    protected $primaryKey = 'id';
-    protected $timestamps = true;
-    protected $fillable = [];
-    protected $guarded = [];
+    protected string $table;
+    protected string $primaryKey = 'id';
+    protected bool $timestamps = true;
+    protected array $fillable = [];
+    protected array $guarded = [];
+    protected QueryBuilder $queryBuilder;
 
     public function __construct()
     {
