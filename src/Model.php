@@ -77,7 +77,9 @@ class Model
 
     public function save(): ?int
     {
-        $queryBuilder = new QueryBuilder($this->getConnection());
+        if (!$this->queryBuilder) {
+            $this->queryBuilder = $this->getQueryBuilder();
+        }
 
         $_id = null;
         $attributes = [];
@@ -92,7 +94,7 @@ class Model
                 $attributes['updated_at'] = date('Y-m-d H:i:s');
             }
 
-            $queryBuilder->update($this->getTable())
+            $this->queryBuilder->update($this->getTable())
                          ->set($attributes)
                          ->where($this->primaryKey, '=', $this->{$this->primaryKey})
                          ->execute();
@@ -103,7 +105,7 @@ class Model
                 $attributes['updated_at'] = date('Y-m-d H:i:s');
             }
 
-            $queryBuilder->insert($this->getTable())
+            $this->queryBuilder->insert($this->getTable())
                          ->values($attributes)
                          ->execute();
 
@@ -115,9 +117,13 @@ class Model
 
     public function delete()
     {
+        if (!$this->queryBuilder) {
+            $this->queryBuilder = $this->getQueryBuilder();
+        }
+
         if (isset($this->{$this->primaryKey})) {
-            $queryBuilder = new QueryBuilder($this->getConnection());
-            $queryBuilder->delete()
+            $this->queryBuilder = new QueryBuilder($this->getConnection());
+            $this->queryBuilder->delete()
                          ->from($this->getTable())
                          ->where($this->primaryKey, '=', $this->{$this->primaryKey})
                          ->execute();
@@ -127,7 +133,7 @@ class Model
     public static function find($id)
     {
         $instance = new static();
-        $queryBuilder = new QueryBuilder($instance->getConnection());
+        $queryBuilder = $instance->getQueryBuilder($instance);
 
         $record = $queryBuilder->select()
                                ->from($instance->getTable())
@@ -142,11 +148,11 @@ class Model
         return null;
     }
 
-
     public static function all(): array
     {
         $instance = new static();
-        $queryBuilder = new QueryBuilder($instance->getConnection());
+        $queryBuilder = $instance->getQueryBuilder($instance);
+
         $records = $queryBuilder->select()
                                 ->from($instance->getTable())
                                 ->get();
