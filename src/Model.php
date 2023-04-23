@@ -160,6 +160,12 @@ class Model
         return array_map(fn ($record) => (new static())->fill($record), $records);
     }
 
+    public static function get(): QueryBuilder
+    {
+        $instance = new static();
+        $queryBuilder = $instance->getQueryBuilder($instance);
+        return $queryBuilder->select()->from($instance->getTable());
+    }
     public function hasOne(/* ... */)
     {
         return new OneToOne(/* ... */);
