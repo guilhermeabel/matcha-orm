@@ -111,7 +111,16 @@ class QueryBuilder
         return new WhereBuilder($column, $this);
     }
 
-    public function _addWhere(string $conditionType, string $column, string $operator, $value): self
+    /**
+     * Add a condition to the query.
+     *
+     * @param string $conditionType
+     * @param string $column
+     * @param string $operator
+     * @param mixed $value
+     * @return $this
+     */
+    public function addCondition(string $conditionType, string $column, string $operator, $value): self
     {
         $placeholder = ':' . str_replace('.', '_', $column);
         $this->query .= (strpos($this->query, 'WHERE') !== false ? " {$conditionType}" : " WHERE") . " {$column} {$operator} {$placeholder}";
