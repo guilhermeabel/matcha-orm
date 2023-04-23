@@ -129,6 +129,26 @@ class QueryBuilder
         return $this;
     }
 
+    /** PAGINATION */
+    public function limit(int $limit): self
+    {
+        $this->query .= " LIMIT {$limit}";
+        return $this;
+    }
+
+    public function offset(int $offset): self
+    {
+        $this->query .= " OFFSET {$offset}";
+        return $this;
+    }
+
+    public function paginate(int $perPage = 15, int $currentPage = 1): self
+    {
+        $offset = ($currentPage - 1) * $perPage;
+
+        return $this->limit($perPage)->offset($offset);
+    }
+
     /** OPERATIONS */
 
     public function get()
