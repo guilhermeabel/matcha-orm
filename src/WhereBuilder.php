@@ -34,7 +34,7 @@ class WhereBuilder
 
     protected function add(string $conditionType, string $column, string $operator, $value): self
     {
-        $this->queryBuilder->_addWhere($conditionType, $column, $operator, $value);
+        $this->queryBuilder->addCondition($conditionType, $column, $operator, $value);
         $this->nextConditionType = 'AND';
 
         return $this;
