@@ -166,6 +166,23 @@ class Model
         $queryBuilder = $instance->getQueryBuilder($instance);
         return $queryBuilder->select()->from($instance->getTable());
     }
+
+    public static function paginate(int $perPage = 15, int $currentPage = 1): array
+    {
+        $instance = new static();
+        $queryBuilder = $instance->getQueryBuilder($instance);
+
+        $offset = ($currentPage - 1) * $perPage;
+
+        $records = $queryBuilder->select()
+                                ->from($instance->getTable())
+                                ->offset($offset)
+                                ->limit($perPage)
+                                ->get();
+
+        return array_map(fn ($record) => (new static())->fill($record), $records);
+    }
+
     public function hasOne(/* ... */)
     {
         return new OneToOne(/* ... */);
