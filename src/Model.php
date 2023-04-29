@@ -58,9 +58,7 @@ class Model
     {
         $instance = $instance ?? $this;
 
-        if (!$instance->queryBuilder) {
-            $instance->queryBuilder = new QueryBuilder($instance->getConnection());
-        }
+        $instance->queryBuilder ??= new QueryBuilder($instance->getConnection());
 
         return $instance->queryBuilder;
     }
@@ -77,9 +75,7 @@ class Model
 
     public function save(): ?int
     {
-        if (!$this->queryBuilder) {
-            $this->queryBuilder = $this->getQueryBuilder();
-        }
+        $this->queryBuilder = $this->getQueryBuilder();
 
         $_id = null;
         $attributes = [];
@@ -117,9 +113,7 @@ class Model
 
     public function delete()
     {
-        if (!$this->queryBuilder) {
-            $this->queryBuilder = $this->getQueryBuilder();
-        }
+        $this->queryBuilder = $this->getQueryBuilder();
 
         if (isset($this->{$this->primaryKey})) {
             $this->queryBuilder = new QueryBuilder($this->getConnection());
