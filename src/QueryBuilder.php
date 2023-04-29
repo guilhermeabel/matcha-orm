@@ -165,7 +165,11 @@ class QueryBuilder
 
     public function execute()
     {
-        return $this->exec();
+        try {
+            return $this->exec();
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
+        }
     }
 
     protected function exec()
