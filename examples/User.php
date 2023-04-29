@@ -6,5 +6,5 @@ use MatchaORM\Model;
 
 class User extends Model
 {
-    protected $fillable = ['name', 'email', 'password'];
+    protected array $fillable = ['name', 'email', 'password'];
 }
