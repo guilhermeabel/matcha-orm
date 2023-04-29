@@ -10,23 +10,75 @@ $dbConfig = config('connections.' . $defaultConnection);
 $connectionInstance = MatchaORM\Connection::getInstance($dbConfig);
 $pdoConnection = $connectionInstance->getConnection();
 
-// create a user
-$user = new User();
-$user->name = 'John Doe';
-$user->email = 'johndoe@example.com' . rand(1, 100);
-$user->save();
+// INSERT
+$newUser = new User();
+$newUser->name = 'John Doe';
+$newUser->email = 'johndoe@example.com' . rand(1, 100);
+$newUser->save();
 
-// update a user
+// SELECT with conditions
+$users = User::get()
+             ->where('age')
+             ->greaterThan(18)
+             ->and('gender')
+             ->equal('male')
+             ->get();
+
+// UPDATE
 $user = User::find(1);
-$user->name = 'John Doe';
-$user->email = 'johndoe@example.com' . rand(1, 100);
-$user->password = '@%FX' . rand(1, 100);
+$user->name = 'Jane Doe';
 $user->save();
 
-// delete a user
+// DELETE
 $user = User::find(1);
 $user->delete();
 
+// SELECT with LIKE
+$users = User::get()
+             ->where('name')
+             ->like('%John%')
+             ->get();
+
+// SELECT with NOT LIKE
+$users = User::get()
+             ->where('name')
+             ->notLike('%John%')
+             ->get();
+
+// SELECT with IN
+$users = User::get()
+             ->where('age')
+             ->in([18, 20, 25])
+             ->get();
+
+// SELECT with NOT IN
+$users = User::get()
+             ->where('age')
+             ->notIn([18, 20, 25])
+             ->get();
+
+// SELECT with IS NULL
+$users = User::get()
+             ->where('deleted_at')
+             ->isNull()
+             ->get();
+
+// SELECT with IS NOT NULL
+$users = User::get()
+             ->where('deleted_at')
+             ->isNotNull()
+             ->get();
+
+// SELECT with BETWEEN
+$users = User::get()
+             ->where('age')
+             ->between(18, 25)
+             ->get();
+
+// SELECT with pagination
+$users = User::get()
+             ->paginate(10, 1);
+
 
 echo "<pre>";
-var_dump($user);
+var_dump($users);
