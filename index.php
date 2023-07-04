@@ -4,11 +4,7 @@ require_once __DIR__ . '\vendor\autoload.php';
 
 use Examples\MatchaORM\User;
 
-$defaultConnection = config('default');
-$dbConfig = config('connections.' . $defaultConnection);
-
-$connectionInstance = MatchaORM\Connection::getInstance($dbConfig);
-$pdoConnection = $connectionInstance->getConnection();
+MatchaORM\Connection::getInstance(config('connections.' . config('default')));
 
 // INSERT
 $newUser = new User();
@@ -69,7 +65,7 @@ $users = User::select()
 
 // SELECT with pagination
 $users = User::select()
-            ->paginate(10, 1)
+            ->paginate(20, 3)
             ->get();
 
 echo "<pre>";
