@@ -13,16 +13,14 @@ $pdoConnection = $connectionInstance->getConnection();
 // INSERT
 $newUser = new User();
 $newUser->name = 'John Doe';
-$newUser->email = 'johndoe@example.com' . rand(1, 100);
+$newUser->email = 'johndoe'.rand(1, 10000).'@example.com';
 $newUser->save();
 
 // SELECT with conditions
-$users = User::get()
-             ->where('age')
-             ->greaterThan(18)
-             ->and('gender')
-             ->equal('male')
-             ->get();
+$users = User::select()
+            ->where('name')
+            ->equal('John Doe')
+            ->get();
 
 // UPDATE
 $user = User::find(1);
@@ -34,51 +32,45 @@ $user = User::find(1);
 $user->delete();
 
 // SELECT with LIKE
-$users = User::get()
-             ->where('name')
-             ->like('%John%')
-             ->get();
+$users = User::select()
+            ->where('name')
+            ->like('%John%')
+            ->get();
 
 // SELECT with NOT LIKE
-$users = User::get()
-             ->where('name')
-             ->notLike('%John%')
-             ->get();
+$users = User::select()
+            ->where('name')
+            ->notLike('%John%')
+            ->get();
 
-// SELECT with IN
-$users = User::get()
-             ->where('age')
-             ->in([18, 20, 25])
-             ->get();
+// // SELECT with IN
+// $users = User::select()
+//             ->where('name')
+//             ->in(["John Doe", 20, 25])
+//             ->get();
 
-// SELECT with NOT IN
-$users = User::get()
-             ->where('age')
-             ->notIn([18, 20, 25])
-             ->get();
+// // SELECT with NOT IN
+// $users = User::select()
+//             ->where('name')
+//             ->notIn([18, 20, 25])
+//             ->get();
 
-// SELECT with IS NULL
-$users = User::get()
-             ->where('deleted_at')
-             ->isNull()
-             ->get();
+// // SELECT with IS NULL
+// $users = User::select()
+//             ->where('deleted_at')
+//             ->isNull()
+//             ->get();
 
-// SELECT with IS NOT NULL
-$users = User::get()
-             ->where('deleted_at')
-             ->isNotNull()
-             ->get();
-
-// SELECT with BETWEEN
-$users = User::get()
-             ->where('age')
-             ->between(18, 25)
-             ->get();
+// // SELECT with IS NOT NULL
+// $users = User::select()
+//             ->where('deleted_at')
+//             ->isNotNull()
+//             ->get();
 
 // SELECT with pagination
-$users = User::get()
-             ->paginate(10, 1);
-
+$users = User::select()
+            ->paginate(10, 1)
+            ->get();
 
 echo "<pre>";
 var_dump($users);
