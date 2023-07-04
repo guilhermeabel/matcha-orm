@@ -8,28 +8,12 @@ class WhereBuilder
     protected QueryBuilder $queryBuilder;
     protected string $nextConditionType = 'AND';
 
-    public function __construct(string $column, QueryBuilder $queryBuilder)
+    public function __construct(string $column, QueryBuilder $queryBuilder, string $nextConditionType = 'AND')
     {
         $this->column = $column;
         $this->queryBuilder = $queryBuilder;
-    }
+        $this->nextConditionType = $nextConditionType;
 
-    public function and(string $column = null): self
-    {
-        if ($column !== null) {
-            $this->currentColumn = $column;
-        }
-        $this->nextConditionType = 'AND';
-        return $this;
-    }
-
-    public function or(string $column = null): self
-    {
-        if ($column !== null) {
-            $this->currentColumn = $column;
-        }
-        $this->nextConditionType = 'OR';
-        return $this;
     }
 
     protected function add(string $conditionType, string $column, string $operator, $value): self
@@ -72,6 +56,12 @@ class WhereBuilder
         return $this->queryBuilder;
     }
 
+    public function equal($value): QueryBuilder
+    {
+        $this->add($this->nextConditionType, $this->column, '=', $value);
+        return $this->queryBuilder;
+    }
+
     /** LIKE */
 
     public function like($pattern): QueryBuilder
@@ -88,34 +78,34 @@ class WhereBuilder
 
     /** OTHER */
 
-    public function in(array $values): QueryBuilder
-    {
-        $this->add($this->nextConditionType, $this->column, 'IN', $values);
-        return $this->queryBuilder;
-    }
+    // public function in(array $values): QueryBuilder
+    // {
+    //     $this->add($this->nextConditionType, $this->column, 'IN', $values);
+    //     return $this->queryBuilder;
+    // }
 
-    public function notIn(array $values): QueryBuilder
-    {
-        $this->add($this->nextConditionType, $this->column, 'NOT IN', $values);
-        return $this->queryBuilder;
-    }
+    // public function notIn(array $values): QueryBuilder
+    // {
+    //     $this->add($this->nextConditionType, $this->column, 'NOT IN', $values);
+    //     return $this->queryBuilder;
+    // }
 
-    public function isNull(): QueryBuilder
-    {
-        $this->add($this->nextConditionType, $this->column, 'IS NULL', null);
-        return $this->queryBuilder;
-    }
+    // public function isNull(): QueryBuilder
+    // {
+    //     $this->add($this->nextConditionType, $this->column, 'IS NULL', null);
+    //     return $this->queryBuilder;
+    // }
 
-    public function isNotNull(): QueryBuilder
-    {
-        $this->add($this->nextConditionType, $this->column, 'IS NOT NULL', null);
-        return $this->queryBuilder;
-    }
+    // public function isNotNull(): QueryBuilder
+    // {
+    //     $this->add($this->nextConditionType, $this->column, 'IS NOT NULL', null);
+    //     return $this->queryBuilder;
+    // }
 
-    public function between($value1, $value2): QueryBuilder
-    {
-        $this->add($this->nextConditionType, $this->column, 'BETWEEN', [$value1, $value2]);
-        return $this->queryBuilder;
-    }
+    // public function between($value1, $value2): QueryBuilder
+    // {
+    //     $this->add($this->nextConditionType, $this->column, 'BETWEEN', [$value1, $value2]);
+    //     return $this->queryBuilder;
+    // }
 
 }
