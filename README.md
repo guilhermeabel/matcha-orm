@@ -9,11 +9,11 @@ It provides an easy-to-use API for working with relational databases, enabling d
 
 - ✅ CRUD operations (Create, Read, Update, Delete)
 - 🗺️ Mapping classes to database tables and properties to columns
-- 🧑‍🤝‍🧑 Relationships between entities (one-to-one, one-to-many, many-to-many)
 - 🔍 Querying and filtering data
-- 🔄 Transactions and concurrency control
 - 📦 Migrations and schema management
-- 🚛 Lazy and eager loading
+- 🧑‍🤝‍🧑 ~~Relationships between entities (one-to-one, one-to-many, many-to-many)~~
+- 🚛 ~~Lazy and eager loading~~
+- 🔄 ~~Transactions and concurrency control~~
 
 ## Installation 📦
 
@@ -52,8 +52,25 @@ use MatchaORM\Model;
 
 class User extends Model
 {
-	protected $fillable = ['name', 'email', 'password'];
+ protected $fillable = ['name', 'email', 'password'];
 }
+```
+
+Make sure to define the `$fillable` property with the columns that can be mass assigned.
+
+Check to see if everything is working by creating a `index.php` file with the following code:
+
+```php
+<?php
+
+
+require_once __DIR__ . '\vendor\autoload.php';
+
+use Examples\MatchaORM\User;
+
+// This will create a new instance for MatchaORM connection using the configuration file config/database.php
+MatchaORM\Connection::getInstance(config('connections.' . config('default')));
+
 ```
 
 Now you can perform CRUD operations and more with your User model:
