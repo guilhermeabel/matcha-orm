@@ -111,6 +111,11 @@ class QueryBuilder
         return new WhereBuilder($column, $this);
     }
 
+    private function whereCondition(string $column, string $conditionType): WhereBuilder
+    {
+        return new WhereBuilder($column, $this, $conditionType);
+    }
+
     /**
      * Add a condition to the query.
      *
@@ -127,6 +132,16 @@ class QueryBuilder
         $this->bindings[$placeholder] = $value;
 
         return $this;
+    }
+
+    public function and(string $column = null): WhereBuilder
+    {
+        return $this->whereCondition($column, 'AND');
+    }
+
+    public function or(string $column = null): WhereBuilder
+    {
+        return $this->whereCondition($column, 'OR');
     }
 
     /** PAGINATION */

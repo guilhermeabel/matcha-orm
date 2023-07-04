@@ -131,8 +131,10 @@ class Model
 
         $record = $queryBuilder->select()
                                ->from($instance->getTable())
-                               ->where($instance->getPrimaryKey(), '=', $id)
-                               ->first();
+                               ->where($instance->getPrimaryKey())
+                               ->equal($id)
+                               ->limit(1)
+                               ->get();
 
         if ($record) {
             $instance->fill($record);
@@ -154,11 +156,11 @@ class Model
         return array_map(fn ($record) => (new static())->fill($record), $records);
     }
 
-    public static function get(): QueryBuilder
+    public static function select(string $columns = '*'): QueryBuilder
     {
         $instance = new static();
         $queryBuilder = $instance->getQueryBuilder($instance);
-        return $queryBuilder->select()->from($instance->getTable());
+        return $queryBuilder->select($columns)->from($instance->getTable());
     }
 
     public static function paginate(int $perPage = 15, int $currentPage = 1): array
