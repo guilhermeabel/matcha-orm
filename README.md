@@ -10,7 +10,7 @@ It provides an easy-to-use API for working with relational databases, enabling d
 - ✅ CRUD operations (Create, Read, Update, Delete)
 - 🗺️ Mapping classes to database tables and properties to columns
 - 🔍 Querying and filtering data
-- 📦 Migrations and schema management
+- 📦 ~~Migrations and schema management~~ (coming soon...)
 - 🧑‍🤝‍🧑 ~~Relationships between entities (one-to-one, one-to-many, many-to-many)~~
 - 🚛 ~~Lazy and eager loading~~
 - 🔄 ~~Transactions and concurrency control~~
