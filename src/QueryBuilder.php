@@ -16,26 +16,6 @@ class QueryBuilder
         $this->pdo = $pdo;
     }
 
-    /**
-     * Get the conditions from the query.
-     *
-     * @return array
-     */
-    public function getConditions(): array
-    {
-        return $this->conditions;
-    }
-
-    /**
-     * Get the bindings from the query.
-     *
-     * @return array
-     */
-    public function getBindings(): array
-    {
-        return $this->bindings;
-    }
-
     //** TO-DO: join, subqueries, transaction support */
 
     /** CREATE */
@@ -153,6 +133,10 @@ class QueryBuilder
 
     public function offset(int $offset): self
     {
+        if ($offset < 1) {
+            return $this;
+        }
+
         $this->query .= " OFFSET {$offset}";
         return $this;
     }
