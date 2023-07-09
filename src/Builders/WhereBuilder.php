@@ -1,6 +1,6 @@
 <?php
 
-namespace MatchaORM;
+namespace MatchaORM\Builders;
 
 class WhereBuilder
 {
