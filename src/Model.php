@@ -2,7 +2,7 @@
 
 namespace MatchaORM;
 
-use MatchaORM\QueryBuilder;
+use MatchaORM\Builders\QueryBuilder;
 use MatchaORM\Relations\{OneToOne, OneToMany, ManyToMany};
 
 class Model
@@ -21,10 +21,7 @@ class Model
 
     protected function getConnection()
     {
-        $defaultConnection = config('default');
-        $dbConfig = config('connections.' . $defaultConnection);
-
-        return (Connection::getInstance($dbConfig))->getConnection();
+        return (Connection::create())->getConnection();
     }
 
     protected function getTable()
