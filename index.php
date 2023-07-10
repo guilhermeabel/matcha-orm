@@ -4,8 +4,6 @@ require_once __DIR__ . '\vendor\autoload.php';
 
 use Examples\MatchaORM\User;
 
-MatchaORM\Connection::getInstance(config('connections.' . config('default')));
-
 // INSERT
 $newUser = new User();
 $newUser->name = 'John Doe';
