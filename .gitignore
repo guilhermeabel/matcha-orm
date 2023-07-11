@@ -1,5 +1,4 @@
 src/migrations
 vendor
-config/database.php
 .vscode
-.env
+

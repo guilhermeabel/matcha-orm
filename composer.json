@@ -16,10 +16,7 @@
         "psr-4": {
             "MatchaORM\\": "src/",
 			"Examples\\MatchaORM\\": "examples/"
-        },
-		"files": [
-            "helpers.php"
-        ]
+        }
     },
     "autoload-dev": {
         "psr-4": {
