@@ -15,27 +15,27 @@ class Connection extends PDO
 {
     private static $instance = null;
     private $connection;
-    private $host = 'localhost';
-    private $charset = 'utf8mb4';
+    private $host = "localhost";
+    private $charset = "utf8mb4";
 
     private function __construct()
     {
-        $database = getenv('MATCHA_DATABASE');
-        $username = getenv('MATCHA_USERNAME');
-        $password = getenv('MATCHA_PASSWORD');
-        $driver = getenv('MATCHA_DRIVER');
+        $database = $_ENV["DB_NAME"];
+        $username = $_ENV["DB_USER"];
+        $password = $_ENV["DB_PASS"];
+        $driver = $_ENV["DB_DRIVER"];
 
-        if ($database === false || $username === false || $password === false || $driver === false) {
-            throw new \Exception('Database configuration is missing, verify your environment variables.');
+        if (empty($database) || empty($username) || empty($password) || empty($driver)) {
+            throw new \Exception("Database configuration is missing, verify your environment variables.");
         }
 
-        $host = getenv('MATCHA_HOST') ?: $this->host;
-        $charset = getenv('MATCHA_CHARSET') ?: $this->charset;
+        $host = $_ENV["DB_HOST"] ?: $this->host;
+        $charset = $_ENV["DB_CHARSET"] ?: $this->charset;
 
         try {
             match ($driver) {
                 DriversEnum::MySql => $this->connection = new MySqlConnection($host, $database, $username, $password, $charset),
-                default => throw new \Exception('Driver not supported.'),
+                default => throw new \Exception("Driver not supported."),
             };
         } catch (PDOException $exception) {
             /** TO-DO: improve exception handling */
