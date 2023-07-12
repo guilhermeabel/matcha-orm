@@ -23,26 +23,17 @@ You can install Matcha ORM using Composer:
 
 ## Getting Started 🏁
 
-To get started, create a `database.php` file to define your database connection settings:
+To get started, you have to define your database connection constants:
 
 ```php
 <?php
 
-return [
-    'default' => 'mysql',
-    'connections' => [
-        'mysql' => [
-            'driver' => 'mysql',
-            'host' => 'localhost',
-            'database' => 'your_database',
-            'username' => 'your_username',
-            'password' => 'your_password',
-            'charset' => 'utf8mb4',
-            'collation' => 'utf8mb4_unicode_ci',
-            'prefix' => '',
-        ],
-    ],
-];
+define('DB_NAME', 'matcha');
+define('DB_USER', 'root');
+define('DB_PASS', '');
+define('DB_DRIVER', 'mysql');
+define('DB_HOST', 'localhost');
+
 ```
 
 Next, create a model class that extends the MatchaORM\Model class and maps to a database table:
@@ -58,20 +49,7 @@ class User extends Model
 
 Make sure to define the `$fillable` property with the columns that can be mass assigned.
 
-Check to see if everything is working by creating a `index.php` file with the following code:
-
-```php
-<?php
-
-
-require_once __DIR__ . '\vendor\autoload.php';
-
-use Examples\MatchaORM\User;
-
-// This will create a new instance for MatchaORM connection using the configuration file config/database.php
-MatchaORM\Connection::getInstance(config('connections.' . config('default')));
-
-```
+MatchaORM will automatically create a new instance for connection using the database configuration constants defined earlier.
 
 Now you can perform CRUD operations and more with your User model:
 
