@@ -89,7 +89,8 @@ class Model
 
             $this->queryBuilder->update($this->getTable())
                          ->set($attributes)
-                         ->where($this->primaryKey, '=', $this->{$this->primaryKey})
+                         ->where($this->primaryKey)
+                         ->equal($this->{$this->primaryKey})
                          ->execute();
             $_id = $this->{$this->primaryKey};
         } else {
@@ -116,26 +117,26 @@ class Model
             $this->queryBuilder = new QueryBuilder($this->getConnection());
             $this->queryBuilder->delete()
                          ->from($this->getTable())
-                         ->where($this->primaryKey, '=', $this->{$this->primaryKey})
+                         ->where($this->primaryKey)
+                         ->equal($this->{$this->primaryKey})
                          ->execute();
         }
     }
 
-    public static function find($id)
+    public static function find($id): ?self
     {
         $instance = new static();
-        $queryBuilder = $instance->getQueryBuilder($instance);
+        $queryBuilder = $instance->getQueryBuilder();
 
-        $record = $queryBuilder->select()
-                               ->from($instance->getTable())
-                               ->where($instance->getPrimaryKey())
-                               ->equal($id)
-                               ->limit(1)
-                               ->get();
+        $result = $queryBuilder->select()
+            ->from($instance->getTable())
+            ->where($instance->getPrimaryKey())
+            ->equal($id)
+            ->execute();
 
-        if ($record) {
-            $instance->fill($record);
-            return $instance;
+        if ($result) {
+            $attributes = $result->fetch();
+            return $instance->fill($attributes);
         }
 
         return null;
