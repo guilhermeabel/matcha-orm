@@ -5,36 +5,32 @@ namespace MatchaORM;
 use MatchaORM\Drivers\MySqlConnection;
 use PDO;
 
-enum DriversEnum
+enum DriversEnum: string
 {
-    case MySql;
-    case PostgreSql;
+    case MySql = "mysql";
+    case PostgreSql = "pgsql";
 }
 
 class Connection extends PDO
 {
     private static $instance = null;
     private $connection;
-    private $host = "localhost";
-    private $charset = "utf8mb4";
+    private $required = ["DB_NAME", "DB_USER", "DB_DRIVER"];
 
     private function __construct()
     {
-        $database = $_ENV["DB_NAME"];
-        $username = $_ENV["DB_USER"];
-        $password = $_ENV["DB_PASS"];
-        $driver = $_ENV["DB_DRIVER"];
-
-        if (empty($database) || empty($username) || empty($password) || empty($driver)) {
-            throw new \Exception("Database configuration is missing, verify your environment variables.");
+        foreach ($this->required as $key) {
+            if (!defined($key)) {
+                throw new \Exception("{$key} is not set.");
+            }
         }
 
-        $host = $_ENV["DB_HOST"] ?: $this->host;
-        $charset = $_ENV["DB_CHARSET"] ?: $this->charset;
+        $host = defined("DB_HOST") ? DB_HOST : "localhost";
+        $charset = defined("DB_CHARSET") ? DB_CHARSET : "utf8mb4";
 
         try {
-            match ($driver) {
-                DriversEnum::MySql => $this->connection = new MySqlConnection($host, $database, $username, $password, $charset),
+            match (DB_DRIVER) {
+                DriversEnum::MySql->value => $this->connection = new MySqlConnection(DB_NAME, DB_USER, DB_PASS, $host, $charset),
                 default => throw new \Exception("Driver not supported."),
             };
         } catch (PDOException $exception) {

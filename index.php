@@ -2,6 +2,12 @@
 
 require_once __DIR__ . '\vendor\autoload.php';
 
+define('DB_NAME', 'matcha');
+define('DB_USER', 'root');
+define('DB_PASS', '');
+define('DB_DRIVER', 'mysql');
+define('DB_HOST', 'localhost');
+
 use Examples\MatchaORM\User;
 
 // INSERT
