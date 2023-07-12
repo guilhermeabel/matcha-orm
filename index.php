@@ -10,17 +10,17 @@ define('DB_HOST', 'localhost');
 
 use Examples\MatchaORM\User;
 
-// INSERT
-$newUser = new User();
-$newUser->name = 'John Doe';
-$newUser->email = 'johndoe'.rand(1, 10000).'@example.com';
-$newUser->save();
+// // INSERT
+// $newUser = new User();
+// $newUser->name = 'John Doe';
+// $newUser->email = 'johndoe'.rand(1, 10000).'@example.com';
+// $newUser->save();
 
-// SELECT with conditions
-$users = User::select()
-            ->where('name')
-            ->equal('John Doe')
-            ->get();
+// // SELECT with conditions
+// $users = User::select()
+//             ->where('name')
+//             ->equal('John Doe')
+//             ->get();
 
 // UPDATE
 $user = User::find(1);
@@ -73,4 +73,4 @@ $users = User::select()
             ->get();
 
 echo "<pre>";
-var_dump($users);
+var_dump($user);
